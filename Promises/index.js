@@ -1,49 +1,49 @@
-function resolvedPath(directoryPath, fileName)
+exports.resolvedPath = function(directoryPath, fileName)
 {
 	var mergedPath = path.resolve(directoryPath, fileName);
 	return mergedPath;
 }
 
-function readFile(filePath)
+exports.readFile = function (filePath)
 {
 	return new Promise(function(resolve, reject)
 	{
-		readThisFile(function()
+		function readThisFile()
 		{
-			resolve(fs.readFile(filePath, 'utf8', (err, data) => {
-				if (err) reject;
-			}));
+			fs.readFile(filePath, 'utf8', (err, data) => {
+				if (err) reject(err);
+				resolve (data);
+			});
 		});
 	}
 }
 
-function readDir (directoryPath)
+exports.readDir = function (directoryPath)
 {
 	return new Promise(function(resolve, reject)
 	{
-		readThisDir(function()
+		function readThisDir()
 		{
-			resolve(fs.readDir(directoryPath, 'utf8', (err, files) => {
-				if (err) reject;
-			}));
+			fs.readDir(directoryPath, 'utf8', (err, files) => {
+				if (err) reject(err);
+				resolve (files);
+			});
 		});
 	}
 }
 
-function readDirFiles (directoryPath)
+exports.readDirFiles = function (directoryPath)
 {
 	return new Promise(function(resolve, reject)
 	{
-		readTheseDirFiles(function()
+		function readTheseDirFiles()
 		{
-			resolve(
-				var dir = readDir(directoryPath);
-				for files in dir
-				{
-					readFile(resolvedPath(directoryPath, file));
-				}
-			);
+			var dir = readDir(directoryPath);
+			for files in dir
+			{
+				readFile(resolvedPath(directoryPath, file));
+			}
 			//reject; //directory or file within it can't be read
-		});
-	}
+		};
+	});
 }
